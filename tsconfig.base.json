@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@test-app-2-remake/daily": ["libs/shared/tables/daily/src/index.ts"],
+      "@test-app-2-remake/data-access": [
+        "libs/shared/data-access/src/index.ts"
+      ],
+      "@test-app-2-remake/hourly": ["libs/shared/tables/hourly/src/index.ts"],
+      "@test-app-2-remake/search": ["libs/shared/search/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
