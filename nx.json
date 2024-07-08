@@ -72,5 +72,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "test-app-2-remake"
+  "defaultProject": "test-app-2-remake",
+  "nxCloudAccessToken": "OGZmNTMwODUtNzYwNy00NjBmLTljN2UtZTc3N2I0YmJjY2U0fHJlYWQtd3JpdGU="
 }
