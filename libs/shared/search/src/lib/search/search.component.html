@@ -1,3 +1,7 @@
 <input #input type="text"/>
-<button (click)="console(input.value)">SEARCH</button>
+<button (click)="search(input.value)">SEARCH</button>
+<select (change)="select($event)">
+  <option value="daily">daily</option>
+  <option value="hourly">hourly</option>
+</select>
 <div>{{'error'}}</div>
