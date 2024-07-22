@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeatherApiService } from '@test-app-2-remake/search';
-import { tap } from 'rxjs';
+import { WeatherApiService, WeatherStateService } from '@test-app-2-remake/search';
+import { combineLatestAll, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'lib-daily',
@@ -12,14 +12,18 @@ import { tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DailyComponent {
-  weatherApi = inject(WeatherApiService);
-  changeDetector = inject(ChangeDetectorRef);
-  daily$ = this.weatherApi.weatherDaily$;
+  private readonly WeatherApiService = inject(WeatherApiService);
+  private readonly WeatherStateService = inject(WeatherStateService);
 
-  location = this.weatherApi.location.pipe(
-    tap(()=>{ this.daily$ = this.weatherApi.weatherDaily$ }),
-    tap(()=>{this.changeDetector.markForCheck()}),
-  ).subscribe(); // да тут опять подписка)
+  daily$ = this.WeatherStateService.weatherDaily$.pipe(
+    // map((a) => `${a}`),
+    // map(values => `[${values.join(', ')}]`),
+    combineLatestAll(),
+    switchMap((s) => s),
 
+    tap((s) => {
+      console.log(s);
+    })
+  );
 
 }

@@ -1,1 +1,3 @@
-<p>{{daily$ | async}}</p>
+<p *ngFor="let daily of daily$ | async; index as i">
+  {{daily[i].temp.day}}
+</p>
