@@ -52,10 +52,7 @@ export class WeatherApiService {
       })),
       tap(()=> {this.weatherDaily$()}),
       map(() => of(EMPTY)),
-      catchError((err) => {
-        console.log(err);
-        return of(err);
-      })
+      catchError((err) => of(err))
     );
   }
 

@@ -16,8 +16,6 @@ export class DailyComponent {
   private readonly WeatherStateService = inject(WeatherStateService);
 
   daily$ = this.WeatherStateService.weatherDaily$.pipe(
-    // map((a) => `${a}`),
-    // map(values => `[${values.join(', ')}]`),
     combineLatestAll(),
     switchMap((s) => s),
 
