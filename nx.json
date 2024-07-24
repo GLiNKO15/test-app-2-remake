@@ -18,9 +18,7 @@
     ],
     "sharedGlobals": []
   },
-  "tags": [
-    "buildable"
-  ],
+  "tags": ["buildable"],
   "targetDefaults": {
     "@angular-devkit/build-angular:application": {
       "cache": true,
