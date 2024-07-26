@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { AppComponent } from './app.component';
 
 export const appRoutes: Route[] = [
   {
@@ -8,14 +7,14 @@ export const appRoutes: Route[] = [
       {
         path: 'hourly',
         loadComponent: () =>
-          import('@test-app-2-remake/hourly').then(
+          import('@test-app-2-remake/tables').then(
             (c) => c.HourlyComponent
           ),
       },
       {
         path: 'daily',
         loadComponent: () =>
-          import('@test-app-2-remake/daily').then(
+          import('@test-app-2-remake/tables').then(
             (c) => c.DailyComponent
           ),
       }

@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { environment } from '../environments/environment';
-import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/data-access';
+import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/weather/core';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
