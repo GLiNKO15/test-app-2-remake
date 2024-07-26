@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/weather/core';
 import { ApiService } from '@test-app-2-remake/data-access';
@@ -49,9 +49,13 @@ export class WeatherApiService {
       })),
       switchMap(() => this.weatherDaily$()),
       tap((daily) => {
-        this.WeatherStateService.weatherDaily$.next(
-          [...this.WeatherStateService.weatherDaily$.value, daily]
-        );
+        if (typeof (daily) === 'string') {
+          throw (daily);
+        } else {
+          this.WeatherStateService.weatherDaily$.next(
+            [...this.WeatherStateService.weatherDaily$.value, daily]
+          );
+        }
       }),
       map(() => null),
       catchError((err) => of(err))

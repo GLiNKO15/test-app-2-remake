@@ -3,7 +3,7 @@ import { WeatherApiService, WeatherStateService } from '@test-app-2-remake/weath
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { switchMap } from 'rxjs';
 
 
 @Component({
@@ -14,18 +14,17 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
   imports: [
     ReactiveFormsModule,
     AsyncPipe,
-    NgIf,
+    NgIf
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
   private readonly WeatherApiService = inject(WeatherApiService);
   private readonly WeatherStateService = inject(WeatherStateService);
-  private readonly router = inject(Router);
-
   searchError = this.WeatherStateService.searchString$.pipe(
     switchMap((s: string) => this.WeatherApiService.getWeatherGeoData(s))
   );
+  private readonly router = inject(Router);
 
   search(str: string) {
     if (str.length > 2) this.WeatherStateService.searchString$.next(str);

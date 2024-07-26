@@ -3,7 +3,7 @@ export interface dailyInterface {
   lon: number;
   timezone: string;
   timezone_offset: number;
-  daily :{
+  daily: {
     feels_like: {
       day: number;
       night: number;
@@ -18,5 +18,5 @@ export interface dailyInterface {
       eve: number;
       morn: number;
     };
-  }[]
+  }[];
 }

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeatherApiService, WeatherStateService } from '@test-app-2-remake/weather/core';
-import { combineLatestAll, map, switchMap, tap } from 'rxjs';
+import { WeatherStateService } from '@test-app-2-remake/weather/core';
 
 @Component({
   selector: 'lib-daily',
@@ -14,10 +13,6 @@ import { combineLatestAll, map, switchMap, tap } from 'rxjs';
 export class DailyComponent {
   private readonly WeatherStateService = inject(WeatherStateService);
 
-  daily$ = this.WeatherStateService.weatherDaily$.pipe(
-    tap((s) => {
-      console.log(s);
-    })
-  );
+  public readonly daily$ = this.WeatherStateService.weatherDaily$;
 
 }
