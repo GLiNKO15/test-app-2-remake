@@ -4,27 +4,27 @@ import { HttpParams } from '@angular/common/http';
 import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/weather/core';
 import { ApiService } from '@test-app-2-remake/data-access';
 import { WeatherStateService } from './weather-state.service';
-import { locationInterface } from './location.interface';
+import { locationNameInterface } from './location.interface';
 import { dailyInterface } from './daily.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherApiService {
-  private readonly ApiGeoUrl = inject(API_GEO_URL);
-  private readonly ApiDataUrl = inject(API_DATA_URL);
-  private readonly ApiService = inject(ApiService);
-  private readonly WeatherStateService = inject(WeatherStateService);
+  private readonly apiGeoUrl = inject(API_GEO_URL);
+  private readonly apiDataUrl = inject(API_DATA_URL);
+  private readonly apiService = inject(ApiService);
+  private readonly weatherStateService = inject(WeatherStateService);
 
   weatherDaily$(): Observable<dailyInterface['daily'] | string> {
-    if (this.WeatherStateService.location$.value.lon && this.WeatherStateService.location$.value.lat) {
+    if (this.weatherStateService.location$.value.lon && this.weatherStateService.location$.value.lat) {
       const httpParams = this.getHttpParams({
-        lat: this.WeatherStateService.location$.value.lat.toString(),
-        lon: this.WeatherStateService.location$.value.lon.toString(),
+        lat: this.weatherStateService.location$.value.lat.toString(),
+        lon: this.weatherStateService.location$.value.lon.toString(),
         exclude: 'current,minutely,hourly,alerts'
       });
 
-      return this.ApiService.get<dailyInterface>(this.ApiDataUrl, httpParams).pipe(
+      return this.apiService.get<dailyInterface>(this.apiDataUrl, httpParams).pipe(
         map((dailyInfo) => dailyInfo.daily)
       );
     }
@@ -36,24 +36,29 @@ export class WeatherApiService {
       q: name,
       limit: '1'
     });
+
     if (!name.length) {
       return of(null);
     }
-    return this.ApiService.get<locationInterface[]>(this.ApiGeoUrl, httpParams).pipe(
+
+    return this.apiService.get<locationNameInterface[]>(this.apiGeoUrl, httpParams).pipe(
       tap((data) => {
         if (data.length < 1) throw ('Такого места не найдено!');
       }),
-      tap((data) => this.WeatherStateService.location$.next({
+      tap((data) => this.weatherStateService.location$.next({
         lat: data[0]?.lat,
         lon: data[0]?.lon
       })),
+      tap((data) => this.weatherStateService.weatherLocationName$.next(
+        [...this.weatherStateService.weatherLocationName$.value, data[0].name]
+      )),
       switchMap(() => this.weatherDaily$()),
       tap((daily) => {
         if (typeof (daily) === 'string') {
           throw (daily);
         } else {
-          this.WeatherStateService.weatherDaily$.next(
-            [...this.WeatherStateService.weatherDaily$.value, daily]
+          this.weatherStateService.weatherDaily$.next(
+            [...this.weatherStateService.weatherDaily$.value, daily]
           );
         }
       }),
@@ -69,5 +74,4 @@ export class WeatherApiService {
       }
     }).appendAll(obj);
   }
-
 }

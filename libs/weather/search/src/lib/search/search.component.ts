@@ -19,15 +19,15 @@ import { switchMap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent {
-  private readonly WeatherApiService = inject(WeatherApiService);
-  private readonly WeatherStateService = inject(WeatherStateService);
-  searchError = this.WeatherStateService.searchString$.pipe(
-    switchMap((s: string) => this.WeatherApiService.getWeatherGeoData(s))
+  private readonly weatherApiService = inject(WeatherApiService);
+  private readonly weatherStateService = inject(WeatherStateService);
+  searchError = this.weatherStateService.searchString$.pipe(
+    switchMap((s: string) => this.weatherApiService.getWeatherGeoData(s))
   );
   private readonly router = inject(Router);
 
   search(str: string) {
-    if (str.length > 2) this.WeatherStateService.searchString$.next(str);
+    if (str.length > 2) this.weatherStateService.searchString$.next(str);
   }
 
   select(value: Event) {

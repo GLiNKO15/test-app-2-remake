@@ -13,4 +13,5 @@ export class WeatherStateService {
   });
   public readonly searchString$ = new BehaviorSubject<string>('');
   public readonly weatherDaily$ = new BehaviorSubject<dailyInterface['daily'][]>([]);
+  public readonly weatherLocationName$ = new BehaviorSubject<string[]>([]);
 }
