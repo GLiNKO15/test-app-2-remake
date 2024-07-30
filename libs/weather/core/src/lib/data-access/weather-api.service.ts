@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/weather/core';
-import { ApiService } from '@test-app-2-remake/data-access';
+import { ApiService } from '@test-app-2-remake/core';
 import { WeatherStateService } from './weather-state.service';
 import { locationNameInterface } from './location.interface';
 import { dailyInterface } from './daily.interface';

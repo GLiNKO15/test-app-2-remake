@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@test-app-2-remake/core": ["libs/core/src/index.ts"],
       "@test-app-2-remake/daily": ["libs/weather/tables/daily/src/index.ts"],
       "@test-app-2-remake/data-access": [
         "libs/shared/data-access/src/index.ts"
