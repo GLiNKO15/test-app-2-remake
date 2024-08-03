@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { locationInterface } from './location.interface';
 import { dailyInterface } from './daily.interface';
+import { hourlyInterface } from './hourly.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,6 @@ export class WeatherStateService {
   });
   public readonly searchString$ = new BehaviorSubject<string>('');
   public readonly weatherDaily$ = new BehaviorSubject<dailyInterface['daily'][]>([]);
+  public readonly weatherHourly$ = new BehaviorSubject<hourlyInterface['hourly'][]>([]);
   public readonly weatherLocationName$ = new BehaviorSubject<string[]>([]);
 }

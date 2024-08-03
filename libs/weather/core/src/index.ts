@@ -4,3 +4,4 @@ export * from './lib/data-access/weather-state.service';
 export * from './lib/data-access/location.interface';
 export * from './lib/data-access/daily.interface';
 export * from './lib/data-access/weather-api.service';
+export * from './lib/data-access/hourly.interface';

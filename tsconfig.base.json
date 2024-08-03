@@ -16,11 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@test-app-2-remake/core": ["libs/core/src/index.ts"],
-      "@test-app-2-remake/daily": ["libs/weather/tables/daily/src/index.ts"],
       "@test-app-2-remake/data-access": [
         "libs/shared/data-access/src/index.ts"
       ],
-      "@test-app-2-remake/hourly": ["libs/weather/tables/hourly/src/index.ts"],
       "@test-app-2-remake/search": ["libs/weather/search/src/index.ts"],
       "@test-app-2-remake/tables": ["libs/weather/tables/src/index.ts"],
       "@test-app-2-remake/weather/core": ["libs/weather/core/src/index.ts"]

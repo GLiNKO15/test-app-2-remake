@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TemperaturePipe } from '../../../ui/temperature.pipe';
 import { WeatherStateService } from '@test-app-2-remake/weather/core';
-import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'lib-daily',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    TemperaturePipe
+  ],
   templateUrl: './daily.component.html',
   styleUrl: './daily.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -16,5 +19,4 @@ export class DailyComponent {
 
   public readonly daily$ = this.weatherStateService.weatherDaily$;
   public readonly local$ = this.weatherStateService.weatherLocationName$;
-
 }

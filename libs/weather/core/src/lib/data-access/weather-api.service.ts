@@ -5,6 +5,7 @@ import { API_DATA_URL, API_GEO_URL } from '@test-app-2-remake/weather/core';
 import { ApiService } from '@test-app-2-remake/core';
 import { WeatherStateService } from './weather-state.service';
 import { locationNameInterface } from './location.interface';
+import { hourlyInterface } from './hourly.interface';
 import { dailyInterface } from './daily.interface';
 
 @Injectable({
@@ -16,7 +17,7 @@ export class WeatherApiService {
   private readonly apiService = inject(ApiService);
   private readonly weatherStateService = inject(WeatherStateService);
 
-  weatherDaily$(): Observable<dailyInterface['daily'] | string> {
+  getWeatherDaily$(): Observable<dailyInterface['daily'] | string> {
     if (this.weatherStateService.location$.value.lon && this.weatherStateService.location$.value.lat) {
       const httpParams = this.getHttpParams({
         lat: this.weatherStateService.location$.value.lat.toString(),
@@ -26,6 +27,21 @@ export class WeatherApiService {
 
       return this.apiService.get<dailyInterface>(this.apiDataUrl, httpParams).pipe(
         map((dailyInfo) => dailyInfo.daily)
+      );
+    }
+    return of('Error: no geo :`(');
+  }
+
+  getWeatherHourly$(): Observable<hourlyInterface['hourly'] | string> {
+    if (this.weatherStateService.location$.value.lon && this.weatherStateService.location$.value.lat) {
+      const httpParams = this.getHttpParams({
+        lat: this.weatherStateService.location$.value.lat.toString(),
+        lon: this.weatherStateService.location$.value.lon.toString(),
+        exclude: 'current,minutely,daily,alerts'
+      });
+
+      return this.apiService.get<hourlyInterface>(this.apiDataUrl, httpParams).pipe(
+        map((hourlyInfo) => hourlyInfo.hourly)
       );
     }
     return of('Error: no geo :`(');
@@ -44,21 +60,33 @@ export class WeatherApiService {
     return this.apiService.get<locationNameInterface[]>(this.apiGeoUrl, httpParams).pipe(
       tap((data) => {
         if (data.length < 1) throw ('Такого места не найдено!');
+        this.weatherStateService.location$.next({
+          lat: data[0]?.lat,
+          lon: data[0]?.lon
+        });
+        this.weatherStateService.weatherLocationName$.next(
+          [...this.weatherStateService.weatherLocationName$.value, data[0].name]
+        )
       }),
-      tap((data) => this.weatherStateService.location$.next({
-        lat: data[0]?.lat,
-        lon: data[0]?.lon
-      })),
-      tap((data) => this.weatherStateService.weatherLocationName$.next(
-        [...this.weatherStateService.weatherLocationName$.value, data[0].name]
-      )),
-      switchMap(() => this.weatherDaily$()),
+      switchMap(() => this.getWeatherDaily$()),
       tap((daily) => {
         if (typeof (daily) === 'string') {
           throw (daily);
         } else {
+          daily = daily.slice(0, -1)
           this.weatherStateService.weatherDaily$.next(
             [...this.weatherStateService.weatherDaily$.value, daily]
+          );
+        }
+      }),
+      switchMap(() => this.getWeatherHourly$()),
+      tap((hourly) => {
+        if (typeof (hourly) === 'string') {
+          throw (hourly);
+        } else {
+          hourly = hourly.filter((elem, index) => index % 3 == 0 && index != 0).slice(0, 8);
+          this.weatherStateService.weatherHourly$.next(
+            [...this.weatherStateService.weatherHourly$.value, hourly]
           );
         }
       }),
